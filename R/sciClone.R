@@ -1,15 +1,29 @@
-##---------------------------------------------------------------
-## clean up and cluster variants based on allele frequency
-##
-sciClone <- function(vafs, copyNumberCalls=NULL, regionsToExclude=NULL,
-                     sampleNames, minimumDepth=100, clusterMethod="bmm",
-                     clusterParams="no.apply.overlapping.std.dev.condition",
-                     cnCallsAreLog2=FALSE,
-                     useSexChrs=TRUE, doClustering=TRUE, verbose=TRUE,
-                     copyNumberMargins=0.25, maximumClusters=10, annotation=NULL,
-                     doClusteringAlongMargins=TRUE, plotIntermediateResults=0, doPurityScaling=FALSE){
+#' Identifies sub-clones within a sequenced sample
+#'
+#' sciClone integrates the read depth and copy number information at
+#' single nucleotide variant locations and clusters the variants in
+#' copy neutral regions, to formalize description of the sub-clonal
+#' architecture of the sample.
+#'
+#' @param regionsToExclude Exclusion regions in 3-column format: 
+#'   1. chromosome 2. window start position 3. window stop 
+#'   position; Single nucleotide variants falling into these windows will not 
+#'   be included in the analysis. Use this input for LOH regions, for example.
+#' @param cnCallsAreLog2 boolean argument specifying whether or not the copy 
+#'   number predictions are in log2 format (as opposed to being absolute copy
+#'   number designations)
+sciClone <- function(vafs, copyNumberCalls = NULL, regionsToExclude = NULL,
+                     sampleNames, minimumDepth = 100, clusterMethod = "bmm",
+                     clusterParams = "no.apply.overlapping.std.dev.condition",
+                     cnCallsAreLog2 = FALSE, useSexChrs = TRUE, 
+                     doClustering = TRUE, verbose = TRUE,
+                     copyNumberMargins = 0.25, maximumClusters = 10, 
+                     annotation = NULL, doClusteringAlongMargins = TRUE, 
+                     plotIntermediateResults = 0, doPurityScaling = FALSE) {
 
-  if(verbose){print("checking input data...")}
+  if (verbose){
+    message("Checking input data...")
+  }
 
   #how many samples do we have?
   dimensions=NULL;
@@ -51,9 +65,10 @@ sciClone <- function(vafs, copyNumberCalls=NULL, regionsToExclude=NULL,
     }
   }
 
-  if(!is.null(regionsToExclude)){
-    if(is.data.frame(regionsToExclude)){
-      regionsToExclude = list(regionsToExclude);
+  if (!is.null(regionsToExclude)) {
+    if (is.data.frame(regionsToExclude)) {
+      message("Detected a regionsToExclude")
+      regionsToExclude <- list(regionsToExclude)
     }
   }
 
@@ -372,19 +387,20 @@ addCnToVafs <- function(vafs, cncalls, copyNumberMargins){
   }
 
   indices <- which(is.na(vafs$cn))
-  if(length(indices) > 0){
-    print("Not all variants fall within a provided copy number region. The copy number of these variants is assumed to be 2.")
+  if (length(indices) > 0) {
+    message(paste("Not all variants fall within a provided copy number",
+                  "region. The copy number of these variants is assumed to be 2."))
     vafs[indices,]$cn = 2
     vafs[indices,]$cleancn = 2
   }
 
-  return(vafs)
+  vafs
 }
 
 ##--------------------------------------------------------------------
 ## intersect the variants with the regionsToExclude to remove them
 ##
-excludeRegions <- function(vafs,regionsToExclude){
+excludeRegions <- function(vafs, regionsToExclude) {
 
   #read in all the excluded regions and combine them into one file;
   regs = NULL
@@ -398,7 +414,6 @@ excludeRegions <- function(vafs,regionsToExclude){
   }
   #sort the list
   regs = regs[order(regs[,1], regs[,2]),]
-
 
   suppressPackageStartupMessages(library(IRanges))
   ##for each chromosome, find variants falling inside regions to be excluded
@@ -421,14 +436,15 @@ excludeRegions <- function(vafs,regionsToExclude){
     }
   }
 
-  return(vafs)
+  vafs
 } # end excludeRegions
 
 
 ##---------------------------------------------------------------------
 ## clean up vaf data, add cn
 ##
-cleanAndAddCN <- function(vafs, cn, num, cnCallsAreLog2, regionsToExclude, useSexChrs, minimumDepth, copyNumberMargins){
+cleanAndAddCN <- function(vafs, cn, num, cnCallsAreLog2, regionsToExclude, 
+                          useSexChrs, minimumDepth, copyNumberMargins) {
     names(vafs) = c("chr","st","ref","var","vaf")
 
     ##remove MT values
@@ -443,17 +459,19 @@ cleanAndAddCN <- function(vafs, cn, num, cnCallsAreLog2, regionsToExclude, useSe
     vafs = unique(vafs)
 
     ##make sure columns are numeric
-    for(i in 2:5){
-      if(!(is.numeric(vafs[,i]))){
-        print(paste("ERROR: column",names(vafs)[i]," in sample",i,"is not numeric"))
-        stop();
+    for (i in 2:5) {
+      if (!is.numeric(vafs[, i])) {
+        stop(paste("ERROR: column", names(vafs)[i], " in sample", i, 
+                    "is not numeric"))
       }
     }
 
     ##remove sites in excludedRegions
     if(!is.null(regionsToExclude)){
-      vafs = excludeRegions(vafs,regionsToExclude);
-      if(length(vafs[,1]) == 0){return(vafs)}
+      vafs <- excludeRegions(vafs, regionsToExclude)
+      if (length(vafs[, 1]) == 0) {
+        vafs
+      }
     }
 
     ##add cn calls
