@@ -8,7 +8,6 @@ Both the 'sciClone' package and it's 'bmm' dependency can be installed by doing 
 #install IRanges from bioconductor
 source("http://bioconductor.org/biocLite.R")
 biocLite("IRanges")
-#install devtools if you don't have it already
 
 devtools::install_github("genome/bmm")
 devtools::install_github("genome/sciClone")
