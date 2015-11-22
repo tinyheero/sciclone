@@ -1,5 +1,7 @@
 An R package for inferring the subclonal architecture of tumors
 
+> This is a fork of the original [sciClone github repository](https://github.com/genome/sciclone)
+
 ## Installation instructions:
 
 Both the 'sciClone' package and it's 'bmm' dependency can be installed by doing the following:
