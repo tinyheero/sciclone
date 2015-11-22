@@ -2,9 +2,9 @@ An R package for inferring the subclonal architecture of tumors
 
 > This is a fork of the original [sciClone github repository](https://github.com/genome/sciclone)
 
-## Installation instructions:
+## Installation Instructions
 
-Both the 'sciClone' package and it's 'bmm' dependency can be installed by doing the following:
+Both the `sciClone` package and its `bmm` dependency can be installed by doing the following:
 
 ```{r}
 #install IRanges from bioconductor
@@ -17,56 +17,62 @@ devtools::install_github("genome/sciClone")
 
 If you prefer to build the package by hand, follow these steps:
 
-- Make sure that you have the dependencies from the CRAN and BioConductor repos:
-IRanges, rgl, RColorBrewer, ggplot2, grid, plotrix, methods
+* Make sure that you have the dependencies from the CRAN and BioConductor repos:
+	+ IRanges
+	+ rgl
+	+ RColorBrewer
+	+ ggplot2
+	+ grid
+	+ plotrix
+	+ methods
 
 - install the bmm package from [https://github.com/genome/bmm](https://github.com/genome/bmm)
 
 - Download and build from source:
 
-
-        git clone git@github.com:genome/sciclone.git
-        cd sciclone/
-        R CMD build sciClone
-        R CMD INSTALL sciClone_1.0.7.tar.gz
+```
+git clone git@github.com:genome/sciclone.git
+cd sciclone/
+R CMD build sciClone
+R CMD INSTALL sciClone_1.0.7.tar.gz
+```
 
 ## Usage
 
 ```{r}
-library(sciClone)
+library("sciClone")
 
-#read in vaf data from three related tumors
-#format is 5 column, tab delimited: 
-#chr, pos, ref_reads, var_reads, vaf
+# read in vaf data from three related tumors
+# format is 5 column, tab delimited: 
+# chr, pos, ref_reads, var_reads, vaf
 
-v1 = read.table("data/vafs.tumor1.dat",header=T);
-v2 = read.table("data/vafs.tumor2.dat",header=T);
-v3 = read.table("data/vafs.tumor3.dat",header=T);
+v1 <- read.table("data/vafs.tumor1.dat", header = T)
+v2 <- read.table("data/vafs.tumor2.dat", header = T)
+v3 <- read.table("data/vafs.tumor3.dat", header = T)
 
-#read in regions to exclude (commonly LOH)
-#format is 3-col bed
-regions = read.table("data/exclude.loh")
+# read in regions to exclude (commonly LOH)
+# format is 3-col bed
+regions <- read.table("data/exclude.loh")
 
-#read in segmented copy number data
-#4 columns - chr, start, stop, segment_mean   
-cn1 = read.table("data/copy_number_tum1")
-cn2 = read.table("data/copy_number_tum2")
-cn3 = read.table("data/copy_number_tum3")
+# read in segmented copy number data
+# 4 columns - chr, start, stop, segment_mean   
+cn1 <- read.table("data/copy_number_tum1")
+cn2 <- read.table("data/copy_number_tum2")
+cn3 <- read.table("data/copy_number_tum3")
 
 #set sample names
 names = c("Sample1","Sample2","Sample3")
 
 
-#Examples:
+# Examples:
 #------------------------------------
-#1d clustering on just one sample
-sc = sciClone(vafs=v1,
-     copyNumberCalls=cn1,
-     sampleNames=names[1],
-     regionsToExclude=reg1)
-#create output
+# 1d clustering on just one sample
+sc <- sciClone(vafs=v1, copyNumberCalls=cn1, sampleNames=names[1], 
+              regionsToExclude=reg1)
+
+# create output
 writeClusterTable(sc, "results/clusters1")
-sc.plot1d(sc,"results/clusters1.1d.pdf")
+sc.plot1d(sc, "results/clusters1.1d.pdf")
 
 #------------------------------------
 #2d clustering using two samples:
