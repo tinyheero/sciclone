@@ -31,66 +31,69 @@ IRanges, rgl, RColorBrewer, ggplot2, grid, plotrix, methods
         R CMD INSTALL sciClone_1.0.7.tar.gz
 
 ## Usage
-    library(sciClone)
 
-    #read in vaf data from three related tumors
-    #format is 5 column, tab delimited: 
-    #chr, pos, ref_reads, var_reads, vaf
+```{r}
+library(sciClone)
 
-    v1 = read.table("data/vafs.tumor1.dat",header=T);
-    v2 = read.table("data/vafs.tumor2.dat",header=T);
-    v3 = read.table("data/vafs.tumor3.dat",header=T);
+#read in vaf data from three related tumors
+#format is 5 column, tab delimited: 
+#chr, pos, ref_reads, var_reads, vaf
 
-    #read in regions to exclude (commonly LOH)
-    #format is 3-col bed
-    regions = read.table("data/exclude.loh")
+v1 = read.table("data/vafs.tumor1.dat",header=T);
+v2 = read.table("data/vafs.tumor2.dat",header=T);
+v3 = read.table("data/vafs.tumor3.dat",header=T);
 
-    #read in segmented copy number data
-    #4 columns - chr, start, stop, segment_mean   
-    cn1 = read.table("data/copy_number_tum1")
-    cn2 = read.table("data/copy_number_tum2")
-    cn3 = read.table("data/copy_number_tum3")
+#read in regions to exclude (commonly LOH)
+#format is 3-col bed
+regions = read.table("data/exclude.loh")
 
-    #set sample names
-    names = c("Sample1","Sample2","Sample3")
+#read in segmented copy number data
+#4 columns - chr, start, stop, segment_mean   
+cn1 = read.table("data/copy_number_tum1")
+cn2 = read.table("data/copy_number_tum2")
+cn3 = read.table("data/copy_number_tum3")
 
-
-    #Examples:
-    #------------------------------------
-    #1d clustering on just one sample
-    sc = sciClone(vafs=v1,
-             copyNumberCalls=cn1,
-             sampleNames=names[1],
-             regionsToExclude=reg1)
-    #create output
-    writeClusterTable(sc, "results/clusters1")
-    sc.plot1d(sc,"results/clusters1.1d.pdf")
-
-    #------------------------------------
-    #2d clustering using two samples:
-    sc = sciClone(vafs=list(v1,v2),
-                  copyNumberCalls=list(cn1,cn2),
-                  sampleNames=names[1:2],
-                   regionsToExclude=regions)
-    #create output
-    writeClusterTable(sc, "results/clusters2")
-    sc.plot1d(sc,"results/clusters2.1d.pdf")
-    sc.plot2d(sc,"results/clusters2.2d.pdf")
+#set sample names
+names = c("Sample1","Sample2","Sample3")
 
 
-    #------------------------------------
-    #3d clustering using three samples:
-    sc = sciClone(vafs=list(v1,v2,v3),
-                  copyNumberCalls=list(cn1,cn2,cn3),
-                  sampleNames=names[1:3],
-                   regionsToExclude=regions)
-    #create output
-    writeClusterTable(sc, "results/clusters2")
-    sc.plot1d(sc,"results/clusters2.1d.pdf")
-    sc.plot2d(sc,"results/clusters2.2d.pdf")
-    sc.plot3d(sc, sc@sampleNames, size=700, outputFile="results/clusters3.3d.gif")
+#Examples:
+#------------------------------------
+#1d clustering on just one sample
+sc = sciClone(vafs=v1,
+     copyNumberCalls=cn1,
+     sampleNames=names[1],
+     regionsToExclude=reg1)
+#create output
+writeClusterTable(sc, "results/clusters1")
+sc.plot1d(sc,"results/clusters1.1d.pdf")
 
-    #This pattern generalizes up to N samples, except for plotting, which caps out at 3d for obvious reasons.
+#------------------------------------
+#2d clustering using two samples:
+sc = sciClone(vafs=list(v1,v2),
+          copyNumberCalls=list(cn1,cn2),
+          sampleNames=names[1:2],
+           regionsToExclude=regions)
+#create output
+writeClusterTable(sc, "results/clusters2")
+sc.plot1d(sc,"results/clusters2.1d.pdf")
+sc.plot2d(sc,"results/clusters2.2d.pdf")
+
+
+#------------------------------------
+#3d clustering using three samples:
+sc = sciClone(vafs=list(v1,v2,v3),
+          copyNumberCalls=list(cn1,cn2,cn3),
+          sampleNames=names[1:3],
+           regionsToExclude=regions)
+#create output
+writeClusterTable(sc, "results/clusters2")
+sc.plot1d(sc,"results/clusters2.1d.pdf")
+sc.plot2d(sc,"results/clusters2.2d.pdf")
+sc.plot3d(sc, sc@sampleNames, size=700, outputFile="results/clusters3.3d.gif")
+
+#This pattern generalizes up to N samples, except for plotting, which caps out at 3d for obvious reasons.
+```
 
 ## Visualization
 
