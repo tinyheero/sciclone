@@ -26,16 +26,15 @@ If you prefer to build the package by hand, follow these steps:
 	+ plotrix
 	+ methods
 
-- install the bmm package from [https://github.com/genome/bmm](https://github.com/genome/bmm)
+* install the bmm package from [https://github.com/genome/bmm](https://github.com/genome/bmm)
 
-- Download and build from source:
-
-```
-git clone git@github.com:genome/sciclone.git
-cd sciclone/
-R CMD build sciClone
-R CMD INSTALL sciClone_1.0.7.tar.gz
-```
+* Download and build from source:
+    ```
+    git clone git@github.com:genome/sciclone.git
+    cd sciclone/
+    R CMD build sciClone
+    R CMD INSTALL sciClone_1.0.7.tar.gz
+    ```
 
 ## Usage
 
