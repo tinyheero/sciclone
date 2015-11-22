@@ -2,6 +2,12 @@ An R package for inferring the subclonal architecture of tumors
 
 > This is a fork of the original [sciClone github repository](https://github.com/genome/sciclone)
 
+Major Changes
+
+* Tidying of code to conform with [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
+* Formatting of README
+* Switching to [roxygen2](https://cran.r-project.org/web/packages/roxygen2/index.html) for function commenting. 
+
 ## Installation Instructions
 
 Both the `sciClone` package and its `bmm` dependency can be installed by doing the following:
@@ -26,9 +32,10 @@ If you prefer to build the package by hand, follow these steps:
 	+ plotrix
 	+ methods
 
-* Install the bmm package from [https://github.com/genome/bmm](https://github.com/genome/bmm)
+* Install the `bmm` package from [https://github.com/genome/bmm](https://github.com/genome/bmm)
 
 * Download and build from source:
+
     ```
     git clone git@github.com:genome/sciclone.git
     cd sciclone/
@@ -59,8 +66,8 @@ cn1 <- read.table("data/copy_number_tum1")
 cn2 <- read.table("data/copy_number_tum2")
 cn3 <- read.table("data/copy_number_tum3")
 
-#set sample names
-names = c("Sample1","Sample2","Sample3")
+# Set sample names
+names <- c("Sample1","Sample2","Sample3")
 
 
 # Examples:
@@ -93,8 +100,8 @@ sc = sciClone(vafs=list(v1,v2,v3),
            regionsToExclude=regions)
 #create output
 writeClusterTable(sc, "results/clusters2")
-sc.plot1d(sc,"results/clusters2.1d.pdf")
-sc.plot2d(sc,"results/clusters2.2d.pdf")
+sc.plot1d(sc, "results/clusters2.1d.pdf")
+sc.plot2d(sc, "results/clusters2.2d.pdf")
 sc.plot3d(sc, sc@sampleNames, size=700, outputFile="results/clusters3.3d.gif")
 
 #This pattern generalizes up to N samples, except for plotting, which caps out at 3d for obvious reasons.
