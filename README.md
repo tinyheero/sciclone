@@ -49,13 +49,14 @@ If you prefer to build the package by hand, follow these steps:
 ```{r}
 library("sciClone")
 
-# read in vaf data from three related tumors
-# format is 5 column, tab delimited: 
+# Read in vaf data from three related tumors
+# Format is 5 column, tab delimited: 
 # chr, pos, ref_reads, var_reads, vaf
+# vaf should be between 0-100 for plotting reasons
 
-v1 <- read.table("data/vafs.tumor1.dat", header = T)
-v2 <- read.table("data/vafs.tumor2.dat", header = T)
-v3 <- read.table("data/vafs.tumor3.dat", header = T)
+v1 <- read.table("data/vafs.tumor1.dat", header = TRUE)
+v2 <- read.table("data/vafs.tumor2.dat", header = TRUE)
+v3 <- read.table("data/vafs.tumor3.dat", header = TRUE)
 
 # Read in regions to exclude (commonly LOH)
 # Format is 3-col bed (chr, start, end)
