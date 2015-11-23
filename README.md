@@ -6,7 +6,8 @@ Major Changes
 
 * Tidying of code to conform with [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
 * Formatting of README
-* Switching to [roxygen2](https://cran.r-project.org/web/packages/roxygen2/index.html) for function documentation. 
+* Switching to [roxygen2](https://cran.r-project.org/web/packages/roxygen2/index.html) for function documentation
+* Removing need to explicitly specify an output file for plotting
 
 ## Installation Instructions
 
