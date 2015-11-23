@@ -73,12 +73,15 @@ names <- c("Sample1","Sample2","Sample3")
 # Examples:
 #------------------------------------
 # 1d clustering on just one sample
-sc <- sciClone(vafs=v1, copyNumberCalls=cn1, sampleNames=names[1], 
-              regionsToExclude=reg1)
+sc <- sciClone(vafs = v1, copyNumberCalls = cn1, sampleNames = names[1], 
+               regionsToExclude = reg1)
 
-# create output
-writeClusterTable(sc, "results/clusters1")
-sc.plot1d(sc, "results/clusters1.1d.pdf")
+# Cluster data
+head(sc@vafs.merged)
+
+# Create Output
+writeClusterTable(sc, "results/clusters1") # same as sc@vafs.merged
+sc.plot1d(sc)
 
 #------------------------------------
 #2d clustering using two samples:
