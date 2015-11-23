@@ -57,8 +57,8 @@ v1 <- read.table("data/vafs.tumor1.dat", header = T)
 v2 <- read.table("data/vafs.tumor2.dat", header = T)
 v3 <- read.table("data/vafs.tumor3.dat", header = T)
 
-# read in regions to exclude (commonly LOH)
-# format is 3-col bed
+# Read in regions to exclude (commonly LOH)
+# Format is 3-col bed (chr, start, end)
 regions <- read.table("data/exclude.loh")
 
 # read in segmented copy number data
@@ -77,7 +77,7 @@ names <- c("Sample1","Sample2","Sample3")
 sc <- sciClone(vafs = v1, copyNumberCalls = cn1, sampleNames = names[1], 
                regionsToExclude = reg1)
 
-# Cluster data
+# Cluster results
 head(sc@vafs.merged)
 
 # Create Output
@@ -86,13 +86,12 @@ sc.plot1d(sc)
 
 #------------------------------------
 #2d clustering using two samples:
-sc = sciClone(vafs=list(v1,v2),
-          copyNumberCalls=list(cn1,cn2),
-          sampleNames=names[1:2],
-           regionsToExclude=regions)
+sc = sciClone(vafs = list(v1,v2), copyNumberCalls = list(cn1,cn2),
+              sampleNames = names[1:2], regionsToExclude = regions)
+              
 #create output
 writeClusterTable(sc, "results/clusters2")
-sc.plot1d(sc,"results/clusters2.1d.pdf")
+sc.plot1d(sc)
 sc.plot2d(sc,"results/clusters2.2d.pdf")
 
 
