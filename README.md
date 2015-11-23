@@ -6,7 +6,7 @@ Major Changes
 
 * Tidying of code to conform with [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
 * Formatting of README
-* Switching to [roxygen2](https://cran.r-project.org/web/packages/roxygen2/index.html) for function commenting. 
+* Switching to [roxygen2](https://cran.r-project.org/web/packages/roxygen2/index.html) for function documentation. 
 
 ## Installation Instructions
 
