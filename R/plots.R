@@ -1,12 +1,15 @@
-#---------------------------------------------------------------------------------
-## Create the one dimensional plot with kde and scatter
-##
+#' Plot Kernel Density and Copy number Information for each Sample
+#' 
+#' @param outputFile Path/name of plot-containing pdf file to create. If not 
+#'   specified, it will plot to the console. 
 sc.plot1d <- function(sco, outputFile,
-                   cnToPlot=c(1,2,3,4), showCopyNumberScatterPlots=TRUE, highlightSexChrs=TRUE,
-                   positionsToHighlight=NULL, highlightsHaveNames=FALSE, overlayClusters=TRUE,
-                   overlayIndividualModels=TRUE, showHistogram=FALSE,
-                   showTitle=TRUE, biggerText=FALSE, highlightsOnHistogram=FALSE, highlightCnPoints=FALSE){
-
+                      cnToPlot = c(1,2,3,4), showCopyNumberScatterPlots = TRUE, 
+                      highlightSexChrs = TRUE, positionsToHighlight = NULL, 
+                      highlightsHaveNames = FALSE, overlayClusters = TRUE,
+                      overlayIndividualModels = TRUE, showHistogram = FALSE,
+                      showTitle = TRUE, biggerText = FALSE, 
+                      highlightsOnHistogram = FALSE, 
+                      highlightCnPoints = FALSE) {
 
   densityData = sco@densities
   vafs.merged = sco@vafs.merged
@@ -90,7 +93,9 @@ sc.plot1d <- function(sco, outputFile,
     scale=1
   }
 
-  pdf(file=outputFile, width=width, height=height, bg="white");
+  if (!missing(outputFile)) {
+    pdf(file = outputFile, width=width, height=height, bg="white");
+  }
 
   numClusters = 0
   if(!is.null(clust)) {
@@ -293,7 +298,9 @@ sc.plot1d <- function(sco, outputFile,
     }
   }
   ##close the pdf
-  devoff <- dev.off();
+  if (!missing(outputFile)) {
+    devoff <- dev.off();
+  }
 }
 
 
